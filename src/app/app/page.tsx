@@ -1,3 +1,5 @@
+"use client";
+
 export default function Page() {
-  return <h1>App</h1>;
+  return <h1>oi</h1>;
 }
