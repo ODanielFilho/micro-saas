@@ -10,6 +10,10 @@ export function middleware(request: NextRequest) {
     pathname,
   });
 
+  if (!token) {
+    console.log("token não chegou");
+  }
+
   if (pathname === "/auth" && token) {
     return NextResponse.redirect(new URL(getUrl("/app")));
   }
