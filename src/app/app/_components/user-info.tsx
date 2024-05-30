@@ -15,7 +15,7 @@ export function UserInfo({ user }: Props) {
   return (
     <div className="flex flex-col items-center justify-center space-y-4">
       <Avatar>
-        <AvatarFallback>U</AvatarFallback>
+        <AvatarFallback>DN</AvatarFallback>
       </Avatar>
       <span>{user.email}</span>
 
