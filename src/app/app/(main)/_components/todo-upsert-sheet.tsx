@@ -1,10 +1,18 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -12,8 +20,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { toast } from "@/components/ui/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
-import { Todo } from "./todo-data-table";
+import { useForm } from "react-hook-form";
+import { upsertTodo } from "../actions";
+import { upsertTodoSchema } from "../schema";
+import { Todo } from "../types";
 
 type TodoUpsertSheetProps = {
   children?: React.ReactNode;
@@ -22,37 +36,61 @@ type TodoUpsertSheetProps = {
 
 export function TodoUpsertSheet({ children }: TodoUpsertSheetProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  const form = useForm({
+    resolver: zodResolver(upsertTodoSchema),
+  });
+
+  const onSubmit = form.handleSubmit(async (data) => {
+    await upsertTodo(data);
+    router.refresh();
+
+    ref.current?.click();
+
+    toast({
+      title: "Success",
+      description: "Your todo has been updated successfully.",
+    });
+  });
+
   return (
     <Sheet>
       <SheetTrigger asChild>
         <div ref={ref}>{children}</div>
       </SheetTrigger>
       <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
-          <SheetDescription>
-            Make changes to your profile here. Click save when you're done.
-          </SheetDescription>
-        </SheetHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input id="name" value="Pedro Duarte" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
-          </div>
-        </div>
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
-          </SheetClose>
-        </SheetFooter>
+        <Form {...form}>
+          <form onSubmit={onSubmit} className="space-y-8 h-screen">
+            <SheetHeader>
+              <SheetTitle>Upsert Todo</SheetTitle>
+              <SheetDescription>
+                Add or edit your todo item here. Click save when you re done.
+              </SheetDescription>
+            </SheetHeader>
+
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Title</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your todo title" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    This will be the publicly displayed name for the task.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <SheetFooter className="mt-auto">
+              <Button type="submit">Save changes</Button>
+            </SheetFooter>
+          </form>
+        </Form>
       </SheetContent>
     </Sheet>
   );
