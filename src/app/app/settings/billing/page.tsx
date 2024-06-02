@@ -8,31 +8,34 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { createCheckoutSessionAction } from "./actions";
 
 export default function Page() {
   return (
-    <Card>
-      <CardHeader className="border-b border-border">
-        <CardTitle>Assinatura</CardTitle>
-        <CardDescription>
-          Voçê está atualmente no plano [current_plan] [next_due_date]
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="pt-6">
-        <div className="space-y-2">
-          <header className="flex items-center justify-between">
-            <span className="text-muted-foreground text-sm">1/5</span>
-            <span className="text-muted-foreground text-sm">20%</span>
-          </header>
-          <main>
-            <Progress value={20} />
-          </main>
-        </div>
-      </CardContent>
-      <CardFooter className="flex items-center justify-between border-t border-border pt-6">
-        <span>Para um maior limite, assine o PRO</span>
-        <Button>Upgrade to PRO</Button>
-      </CardFooter>
-    </Card>
+    <form action={createCheckoutSessionAction}>
+      <Card>
+        <CardHeader className="border-b border-border">
+          <CardTitle>Assinatura</CardTitle>
+          <CardDescription>
+            Voçê está atualmente no plano [current_plan] [next_due_date]
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <div className="space-y-2">
+            <header className="flex items-center justify-between">
+              <span className="text-muted-foreground text-sm">1/5</span>
+              <span className="text-muted-foreground text-sm">20%</span>
+            </header>
+            <main>
+              <Progress value={20} />
+            </main>
+          </div>
+        </CardContent>
+        <CardFooter className="flex items-center justify-between border-t border-border pt-6">
+          <span>Para um maior limite, assine o PRO</span>
+          <Button type="submit">Assine por R$9,99/mês</Button>
+        </CardFooter>
+      </Card>
+    </form>
   );
 }
