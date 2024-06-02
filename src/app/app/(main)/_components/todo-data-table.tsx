@@ -58,8 +58,8 @@ export function TodoDataTable({ data }: TodoDataTable) {
     router.refresh();
 
     toast({
-      title: "Deletion Successful",
-      description: "The todo item has been successfully deleted.",
+      title: "Deletado com Sucesso",
+      description: "A tarefa foi deletada com sucesso.",
     });
   };
 
@@ -70,8 +70,8 @@ export function TodoDataTable({ data }: TodoDataTable) {
     router.refresh();
 
     toast({
-      title: "Update Successful",
-      description: "The todo item has been successfully updated.",
+      title: "Tarefa inserida",
+      description: "A tarefa foi inserida com sucesso.",
     });
   };
 
@@ -82,7 +82,9 @@ export function TodoDataTable({ data }: TodoDataTable) {
       cell: ({ row }) => {
         const { doneAt } = row.original;
 
-        const status: "done" | "waiting" = doneAt ? "done" : "waiting";
+        const status: "Concluída" | "Em espera" = doneAt
+          ? "Concluída"
+          : "Em espera";
         const variant: "outline" | "default" = doneAt ? "default" : "outline";
 
         return <Badge variant={variant}>{status}</Badge>;
@@ -96,7 +98,7 @@ export function TodoDataTable({ data }: TodoDataTable) {
             variant="link"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Title
+            Título
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         );
@@ -105,7 +107,7 @@ export function TodoDataTable({ data }: TodoDataTable) {
     },
     {
       accessorKey: "createdAt",
-      header: () => <div className="text-right">createdAt</div>,
+      header: () => <div className="text-right">Criada em</div>,
       cell: ({ row }) => {
         return (
           <div className="text-right font-medium">
@@ -124,23 +126,23 @@ export function TodoDataTable({ data }: TodoDataTable) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
+                <span className="sr-only">Abrir menu</span>
                 <DotsHorizontalIcon className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel>Opções</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(todo.id)}
               >
-                Copy todo ID
+                Copiar ID da Tarefa
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => handleToggleDoneTodo(todo)}>
-                Mark as done
+                Marcar como concluída
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleDeleteTodo(todo)}>
-                Delete
+                Deletar
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -221,10 +223,6 @@ export function TodoDataTable({ data }: TodoDataTable) {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
         <div className="space-x-2">
           <Button
             variant="outline"
@@ -232,7 +230,7 @@ export function TodoDataTable({ data }: TodoDataTable) {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            Pág. Anterior
           </Button>
           <Button
             variant="outline"
@@ -240,7 +238,7 @@ export function TodoDataTable({ data }: TodoDataTable) {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            Próx. Página
           </Button>
         </div>
       </div>

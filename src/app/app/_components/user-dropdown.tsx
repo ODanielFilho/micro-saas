@@ -23,6 +23,8 @@ type UserDropdownProps = {
 
 export function UserDropdown({ user }: UserDropdownProps) {
   if (!user) return;
+  const name: string | null | undefined = user.name;
+  const firstChar = typeof name === "string" ? name[0] : "U";
 
   return (
     <DropdownMenu>
@@ -33,7 +35,7 @@ export function UserDropdown({ user }: UserDropdownProps) {
         >
           <Avatar className="h-8 w-8">
             <AvatarImage src={user.image as string} alt={user.name as string} />
-            <AvatarFallback>U</AvatarFallback>
+            <AvatarFallback>{firstChar}</AvatarFallback>
           </Avatar>
 
           <div className="flex flex-col flex-1 space-y-1 text-left">
