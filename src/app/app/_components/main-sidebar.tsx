@@ -64,7 +64,7 @@ export function MainSidebar({ user }: MainSidebarProps) {
           </DashboardSidebarNavMain>
         </DashboardSidebarNav>
       </DashboardSidebarMain>
-      <DashboardSidebarFooter>
+      <DashboardSidebarFooter className="flex items-center justify-center box-content	">
         <UserDropdown user={user} />
       </DashboardSidebarFooter>
     </DashboardSidebar>
